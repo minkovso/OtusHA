@@ -1,0 +1,36 @@
+=== 2025-10-13 12:04:15 ===
+NAME               CPU %     MEM %     BLOCK I/O     NET I/O
+hw3-app-1          36.44%    0.57%     0B / 221kB    381kB / 73.4kB
+hw3-db-1           712.06%   2.72%     0B / 1.12GB   143kB / 1.11MB
+=== 2025-10-13 12:04:19 ===
+NAME               CPU %     MEM %     BLOCK I/O        NET I/O
+hw3-app-1          38.78%    0.70%     8.19kB / 221kB   3.17MB / 3.49MB
+hw3-db-1           329.04%   3.37%     0B / 1.13GB      358kB / 3.06MB
+=== 2025-10-13 12:04:22 ===
+NAME               CPU %     MEM %     BLOCK I/O        NET I/O
+hw3-app-1          47.86%    0.71%     8.19kB / 221kB   5.13MB / 5.57MB
+hw3-db-1           590.01%   2.20%     0B / 1.14GB      619kB / 6.36MB
+=== 2025-10-13 12:04:26 ===
+NAME               CPU %     MEM %     BLOCK I/O        NET I/O
+hw3-app-1          23.78%    0.76%     8.19kB / 221kB   8.34MB / 10.5MB
+hw3-db-1           623.31%   3.39%     0B / 1.14GB      883kB / 9.01MB
+=== 2025-10-13 12:04:29 ===
+NAME               CPU %     MEM %     BLOCK I/O        NET I/O
+hw3-app-1          39.56%    0.78%     8.19kB / 221kB   12.2MB / 15.3MB
+hw3-db-1           279.26%   2.85%     0B / 1.15GB      1.13MB / 11.9MB
+=== 2025-10-13 12:04:33 ===
+NAME               CPU %     MEM %     BLOCK I/O        NET I/O
+hw3-app-1          45.47%    0.79%     8.19kB / 221kB   15MB / 18.8MB
+hw3-db-1           716.90%   2.45%     0B / 1.15GB      1.4MB / 14.6MB
+=== 2025-10-13 12:04:37 ===
+NAME               CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1          52.02%    0.79%     8.19kB / 221kB    16.5MB / 20.2MB
+hw3-db-1           665.84%   2.12%     16.4kB / 1.15GB   1.55MB / 15.6MB
+=== 2025-10-13 12:04:40 ===
+NAME               CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1          43.02%    0.80%     8.19kB / 221kB    18.6MB / 22.3MB
+hw3-db-1           773.88%   3.44%     16.4kB / 1.15GB   1.85MB / 18.2MB
+=== 2025-10-13 12:04:43 ===
+NAME               CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1          40.17%    0.80%     8.19kB / 221kB    21MB / 26.4MB
+hw3-db-1           370.53%   3.49%     16.4kB / 1.15GB   2.1MB / 20.9MB

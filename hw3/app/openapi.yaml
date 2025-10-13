@@ -1,0 +1,171 @@
+openapi: 3.0.0
+info:
+  title: OTUS Highload Architect Minkov
+  version: 1.0.0
+paths:
+  /login:
+    post:
+      description: Упрощенный процесс аутентификации путем передачи идентификатор пользователя и получения токена для дальнейшего прохождения авторизации
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+                password:
+                  type: string
+                  example: Секретная строка
+              required:
+                - id
+                - password
+      responses:
+        '200':
+          description: Успешная аутентификация
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+                required:
+                  - token
+        '400':
+          description: Невалидные данные
+        '404':
+          description: Пользователь не найден
+        '500':
+          description: Ошибка сервера
+  /user/register:
+    post:
+      description: Регистрация нового пользователя
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  example: Имя
+                second_name:
+                  type: string
+                  example: Фамилия
+                birthdate:
+                  type: string
+                  format: date
+                  example: 2017-02-01
+                biography:
+                  type: string
+                  example: Хобби, интересы и т.п.
+                city:
+                  type: string
+                  example: Москва
+                password:
+                  type: string
+                  example: Секретная строка
+              required:
+                - first_name
+                - second_name
+                - birthdate
+                - biography
+                - city
+                - password
+      responses:
+        '200':
+          description: Успешная регистрация
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+                required:
+                  - id
+        '500':
+          description: Ошибка сервера
+  /user/get/{id}:
+    get:
+      description: Получение анкеты пользователя
+      parameters:
+        - name: id
+          schema:
+            type: string
+            example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Успешное получение анкеты пользователя
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Анкета не найдена
+        '500':
+          description: Ошибка сервера
+  /user/search:
+    get:
+      description: Поиск анкет по частям имени и фамилии
+      parameters:
+        - name: first_name
+          schema:
+            type: string
+            example: Pet
+          in: query
+          required: true
+        - name: second_name
+          schema:
+            type: string
+            example: Whi
+          in: query
+          required: true
+      responses:
+        '200':
+          description: Успешное получение анкет пользователей
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Ошибка сервера
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+        first_name:
+          type: string
+          example: Имя
+        second_name:
+          type: string
+          example: Фамилия
+        birthdate:
+          type: string
+          format: date
+          example: 2017-02-01
+        biography:
+          type: string
+          example: Хобби, интересы и т.п.
+        city:
+          type: string
+          example: Москва
+      required:
+        - id
+        - first_name
+        - second_name
+        - birthdate
+        - biography
+        - city

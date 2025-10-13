@@ -1,0 +1,56 @@
+=== 2025-10-13 12:09:25 ===
+NAME                   CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1              49.09%    0.67%     0B / 221kB        1.85MB / 1.58MB
+hw3-pgpool-1           94.36%    3.05%     0B / 2.11MB       3.59MB / 143MB
+hw3-postgresql-1-1     225.85%   3.06%     8.19kB / 1.21GB   394MB / 1.39MB
+hw3-postgresql-2-1     241.25%   3.13%     20.5kB / 1.19GB   392MB / 1.37MB
+hw3-postgresql-0-1     211.53%   3.26%     0B / 1.32GB       140MB / 786MB
+=== 2025-10-13 12:09:29 ===
+NAME                   CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1              39.12%    0.76%     0B / 221kB        5.28MB / 6.11MB
+hw3-pgpool-1           86.83%    3.03%     0B / 2.11MB       5.99MB / 145MB
+hw3-postgresql-1-1     172.15%   3.25%     8.19kB / 1.22GB   394MB / 1.86MB
+hw3-postgresql-2-1     152.95%   3.19%     20.5kB / 1.2GB    392MB / 2.19MB
+hw3-postgresql-0-1     208.60%   3.28%     0B / 1.33GB       140MB / 787MB
+=== 2025-10-13 12:09:32 ===
+NAME                   CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1              63.27%    0.78%     0B / 221kB        7.71MB / 9.23MB
+hw3-pgpool-1           96.81%    3.05%     0B / 2.11MB       9.33MB / 149MB
+hw3-postgresql-1-1     227.98%   3.18%     8.19kB / 1.23GB   394MB / 2.85MB
+hw3-postgresql-2-1     249.30%   3.25%     20.5kB / 1.21GB   392MB / 3.21MB
+hw3-postgresql-0-1     215.61%   3.34%     0B / 1.35GB       140MB / 788MB
+=== 2025-10-13 12:09:36 ===
+NAME                   CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1              37.65%    0.79%     0B / 221kB        11.3MB / 13.9MB
+hw3-pgpool-1           72.03%    3.03%     0B / 2.11MB       12.1MB / 152MB
+hw3-postgresql-1-1     260.09%   3.09%     8.19kB / 1.24GB   394MB / 3.57MB
+hw3-postgresql-2-1     168.89%   3.09%     20.5kB / 1.22GB   392MB / 4.24MB
+hw3-postgresql-0-1     227.73%   3.21%     0B / 1.35GB       140MB / 789MB
+=== 2025-10-13 12:09:40 ===
+NAME                   CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1              38.00%    0.80%     0B / 221kB        13.6MB / 16.2MB
+hw3-pgpool-1           87.79%    3.03%     0B / 2.11MB       14.6MB / 154MB
+hw3-postgresql-1-1     151.52%   3.27%     8.19kB / 1.25GB   394MB / 4.37MB
+hw3-postgresql-2-1     152.91%   3.21%     20.5kB / 1.23GB   392MB / 4.9MB
+hw3-postgresql-0-1     159.31%   3.34%     0B / 1.35GB       141MB / 790MB
+=== 2025-10-13 12:09:43 ===
+NAME                   CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1              43.86%    0.81%     0B / 221kB        15.7MB / 18.8MB
+hw3-pgpool-1           91.57%    3.05%     0B / 2.11MB       17.9MB / 158MB
+hw3-postgresql-1-1     290.98%   3.27%     8.19kB / 1.26GB   394MB / 5.47MB
+hw3-postgresql-2-1     123.34%   3.18%     20.5kB / 1.23GB   392MB / 5.89MB
+hw3-postgresql-0-1     232.92%   3.38%     0B / 1.35GB       141MB / 791MB
+=== 2025-10-13 12:09:47 ===
+NAME                   CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1              53.21%    0.82%     0B / 221kB        20MB / 24.3MB
+hw3-pgpool-1           102.71%   3.03%     0B / 2.11MB       21.1MB / 161MB
+hw3-postgresql-1-1     284.21%   3.26%     8.19kB / 1.27GB   394MB / 6.7MB
+hw3-postgresql-2-1     207.35%   3.22%     20.5kB / 1.24GB   393MB / 6.44MB
+hw3-postgresql-0-1     184.97%   3.35%     0B / 1.35GB       141MB / 791MB
+=== 2025-10-13 12:09:50 ===
+NAME                   CPU %     MEM %     BLOCK I/O         NET I/O
+hw3-app-1              51.70%    0.83%     0B / 221kB        22.1MB / 26.6MB
+hw3-pgpool-1           96.85%    3.03%     0B / 2.11MB       23.2MB / 164MB
+hw3-postgresql-1-1     224.58%   3.21%     8.19kB / 1.27GB   395MB / 7.31MB
+hw3-postgresql-2-1     233.90%   3.25%     20.5kB / 1.25GB   393MB / 6.83MB
+hw3-postgresql-0-1     223.12%   3.27%     0B / 1.35GB       141MB / 793MB
