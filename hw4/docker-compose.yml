@@ -1,0 +1,145 @@
+services:
+  postgresql-0:
+    image: bitnamilegacy/postgresql-repmgr:17.6.0-debian-12-r2
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prod
+      - REPMGR_PASSWORD=repl
+      - REPMGR_NODE_NAME=postgresql-0
+      - REPMGR_NODE_NETWORK_NAME=postgresql-0
+      - REPMGR_PRIMARY_HOST=postgresql-0
+      - REPMGR_PARTNER_NODES=postgresql-0,postgresql-1,postgresql-2
+      - REPMGR_LOG_LEVEL=NOTICE
+    volumes:
+      - postgresql_0_data:/bitnami/postgresql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d prod"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  postgresql-1:
+    image: bitnamilegacy/postgresql-repmgr:17.6.0-debian-12-r2
+    depends_on:
+      postgresql-0:
+        condition: service_healthy
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prod
+      - REPMGR_PASSWORD=repl
+      - REPMGR_NODE_NAME=postgresql-1
+      - REPMGR_NODE_NETWORK_NAME=postgresql-1
+      - REPMGR_PRIMARY_HOST=postgresql-0
+      - REPMGR_PARTNER_NODES=postgresql-0,postgresql-1,postgresql-2
+      - REPMGR_LOG_LEVEL=NOTICE
+    volumes:
+      - postgresql_1_data:/bitnami/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d prod"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  postgresql-2:
+    image: bitnamilegacy/postgresql-repmgr:17.6.0-debian-12-r2
+    depends_on:
+      postgresql-0:
+        condition: service_healthy
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prod
+      - REPMGR_PASSWORD=repl
+      - REPMGR_NODE_NAME=postgresql-2
+      - REPMGR_NODE_NETWORK_NAME=postgresql-2
+      - REPMGR_PRIMARY_HOST=postgresql-0
+      - REPMGR_PARTNER_NODES=postgresql-0,postgresql-1,postgresql-2
+      - REPMGR_LOG_LEVEL=NOTICE
+    volumes:
+      - postgresql_2_data:/bitnami/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d prod"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  pgpool:
+    image: bitnamilegacy/pgpool:4.6.3
+    depends_on:
+      postgresql-0:
+        condition: service_healthy
+      postgresql-1:
+        condition: service_healthy
+      postgresql-2:
+        condition: service_healthy
+    environment:
+      - PGPOOL_BACKEND_NODES=0:postgresql-0:5432:1,1:postgresql-1:5432:1,2:postgresql-2:5432:1
+      - PGPOOL_DATABASE_REDIRECT_PREFERENCE_LIST=*:standby
+      - PGPOOL_BACKEND_APPLICATION_NAMES=postgresql-0,postgresql-1,postgresql-2
+      - PGPOOL_POSTGRES_USERNAME=postgres
+      - PGPOOL_POSTGRES_PASSWORD=postgres
+      - PGPOOL_SR_CHECK_USER=postgres
+      - PGPOOL_SR_CHECK_PASSWORD=postgres
+      - PGPOOL_SKIP_PASSWORD_ENCRYPTION=yes
+      - PGPOOL_HEALTH_CHECK_PERIOD=2
+      - PGPOOL_ADMIN_USERNAME=admin
+      - PGPOOL_ADMIN_PASSWORD=admin
+      - PGPOOL_ENABLE_LOAD_BALANCING=yes
+      - PGPOOL_FAILOVER_ON_BACKEND_ERROR=on
+      - PGPOOL_AUTO_FAILBACK=yes
+    healthcheck:
+      test: ["CMD-SHELL",
+             "PGPASSWORD=postgres psql -U postgres -h localhost -p 5432 -d prod -c 'SELECT 1' > /dev/null 2>&1"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  redis:
+    image: redis:7.4
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--loglevel", "warning",
+              "--maxmemory", "128mb", "--maxmemory-policy", "volatile-lfu"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    volumes:
+      - redis_data:/data
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    ports:
+      - "5540:5540"
+    depends_on:
+      - redis
+    volumes:
+      - redisinsight_data:/data
+
+  app:
+    build: .
+    environment:
+      - DB_HOST=pgpool
+      - DB_PORT=5432
+      - DB_NAME=prod
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SECRET_KEY=secret_key
+    depends_on:
+      pgpool:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgresql_0_data:
+  postgresql_1_data:
+  postgresql_2_data:
+  redis_data:
+  redisinsight_data:

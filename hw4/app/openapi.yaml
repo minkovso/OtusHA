@@ -1,0 +1,375 @@
+openapi: 3.0.0
+info:
+  title: OTUS Highload Architect Minkov
+  version: 1.0.0
+paths:
+  /login:
+    post:
+      description: Упрощенный процесс аутентификации путем передачи идентификатор пользователя и получения токена для дальнейшего прохождения авторизации
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+                password:
+                  type: string
+                  example: Секретная строка
+              required:
+                - user_id
+                - password
+      responses:
+        '200':
+          description: Успешная аутентификация
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+                required:
+                  - token
+        '400':
+          description: Невалидные данные
+        '404':
+          description: Пользователь не найден
+        '500':
+          description: Ошибка сервера
+  /user/register:
+    post:
+      description: Регистрация нового пользователя
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  example: Имя
+                second_name:
+                  type: string
+                  example: Фамилия
+                birthdate:
+                  type: string
+                  format: date
+                  example: 2017-02-01
+                biography:
+                  type: string
+                  example: Хобби, интересы и т.п.
+                city:
+                  type: string
+                  example: Москва
+                password:
+                  type: string
+                  example: Секретная строка
+              required:
+                - first_name
+                - second_name
+                - birthdate
+                - biography
+                - city
+                - password
+      responses:
+        '200':
+          description: Пользователь успешно зарегистрирован
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+                required:
+                  - user_id
+        '500':
+          description: Ошибка сервера
+  /user/get/{user_id}:
+    get:
+      description: Получение анкеты пользователя
+      parameters:
+        - name: user_id
+          schema:
+            type: string
+            example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Анкета пользователя успешно получена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Анкета не найдена
+        '500':
+          description: Ошибка сервера
+  /user/search:
+    get:
+      description: Поиск анкет по частям имени и фамилии
+      parameters:
+        - name: first_name
+          schema:
+            type: string
+            example: Pet
+          required: true
+          in: query
+        - name: second_name
+          schema:
+            type: string
+            example: Whi
+          required: true
+          in: query
+      responses:
+        '200':
+          description: Анкеты пользователей успешно получены
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Ошибка сервера
+  /friend/add/{friend_id}:
+    put:
+      description: Добавление друга
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: friend_id
+          schema:
+            type: string
+            example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Друг успешно добавлен
+        '400':
+          description: Невалидные данные
+        '401':
+          description: Неавторизованный доступ
+        '500':
+          description: Ошибка сервера
+  /friend/delete/{friend_id}:
+    put:
+      description: Удаление друга
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: friend_id
+          schema:
+            type: string
+            example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Друг успешно удален
+        '400':
+          description: Невалидные данные
+        '401':
+          description: Неавторизованный доступ
+        '500':
+          description: Ошибка сервера
+  /post/create:
+    post:
+      description: Создание поста
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  $ref: '#/components/schemas/PostText'
+              required:
+                - text
+      responses:
+        '200':
+          description: Пост успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  post_id:
+                    $ref: '#/components/schemas/PostId'
+                required:
+                  - post_id
+        '401':
+          description: Неавторизованный доступ
+        '500':
+          description: Ошибка сервера
+  /post/update:
+    put:
+      description: Изменение поста
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post_id:
+                  $ref: '#/components/schemas/PostId'
+                text:
+                  $ref: '#/components/schemas/PostText'
+              required:
+                - post_id
+                - text
+      responses:
+        '200':
+          description: Пост успешно изменен
+        '400':
+          description: Невалидные данные
+        '401':
+          description: Неавторизованный доступ
+        '500':
+          description: Ошибка сервера
+  /post/delete/{post_id}:
+    put:
+      description: Удаление поста
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: post_id
+          schema:
+            $ref: '#/components/schemas/PostId'
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Пост успешно удален
+        '400':
+          description: Невалидные данные
+        '401':
+          description: Неавторизованный доступ
+        '500':
+          description: Ошибка сервера
+  /post/get/{post_id}:
+    get:
+      description: Получение поста пользователя
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: post_id
+          schema:
+            $ref: '#/components/schemas/PostId'
+          required: true
+          in: path
+      responses:
+        '200':
+          description: Пост успешно получен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '401':
+          description: Неавторизованный доступ
+        '404':
+          description: Пост не найден
+        '500':
+          description: Ошибка сервера
+  /post/feed:
+    get:
+      description: Получение постов друзей пользователя
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: offset
+          schema:
+            type: number
+            minimum: 0
+            example: 100
+            default: 0
+          required: false
+          in: query
+        - name: limit
+          schema:
+            type: number
+            minimum: 1
+            example: 10
+            default: 10
+          required: false
+          in: query
+      responses:
+        '200':
+          description: Посты друзей успешно получены
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '401':
+          description: Неавторизованный доступ
+        '500':
+          description: Ошибка сервера
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+        first_name:
+          type: string
+          example: Имя
+        second_name:
+          type: string
+          example: Фамилия
+        birthdate:
+          type: string
+          format: date
+          example: 2017-02-01
+        biography:
+          type: string
+          example: Хобби, интересы и т.п.
+        city:
+          type: string
+          example: Москва
+      required:
+        - user_id
+        - first_name
+        - second_name
+        - birthdate
+        - biography
+        - city
+    PostId:
+      type: string
+      example: 1d535fd6-7521-4cb1-aa6d-031be7123c4d
+    PostText:
+      type: string
+      example: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.
+    Post:
+      type: object
+      properties:
+        post_id:
+          $ref: '#/components/schemas/PostId'
+        text:
+          $ref: '#/components/schemas/PostText'
+        user_id:
+          type: string
+          example: e4d2e6b0-cde2-42c5-aac3-0b8316f21e58
+      required:
+        - post_id
+        - text
+        - user_id
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Авторизация по токену, который был получен в методе /login
