@@ -1,0 +1,276 @@
+services:
+  postgresql-0:
+    image: bitnamilegacy/postgresql-repmgr:17.6.0-debian-12-r2
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prod
+      - REPMGR_PASSWORD=repl
+      - REPMGR_NODE_NAME=postgresql-0
+      - REPMGR_NODE_NETWORK_NAME=postgresql-0
+      - REPMGR_PRIMARY_HOST=postgresql-0
+      - REPMGR_PARTNER_NODES=postgresql-0,postgresql-1,postgresql-2
+      - REPMGR_LOG_LEVEL=NOTICE
+    volumes:
+      - postgresql_0_data:/bitnami/postgresql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL",
+             "pg_isready -U postgres -d prod"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  postgresql-1:
+    image: bitnamilegacy/postgresql-repmgr:17.6.0-debian-12-r2
+    depends_on:
+      postgresql-0:
+        condition: service_healthy
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prod
+      - REPMGR_PASSWORD=repl
+      - REPMGR_NODE_NAME=postgresql-1
+      - REPMGR_NODE_NETWORK_NAME=postgresql-1
+      - REPMGR_PRIMARY_HOST=postgresql-0
+      - REPMGR_PARTNER_NODES=postgresql-0,postgresql-1,postgresql-2
+      - REPMGR_LOG_LEVEL=NOTICE
+    volumes:
+      - postgresql_1_data:/bitnami/postgresql
+    healthcheck:
+      test: ["CMD-SHELL",
+             "pg_isready -U postgres -d prod"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  postgresql-2:
+    image: bitnamilegacy/postgresql-repmgr:17.6.0-debian-12-r2
+    depends_on:
+      postgresql-0:
+        condition: service_healthy
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prod
+      - REPMGR_PASSWORD=repl
+      - REPMGR_NODE_NAME=postgresql-2
+      - REPMGR_NODE_NETWORK_NAME=postgresql-2
+      - REPMGR_PRIMARY_HOST=postgresql-0
+      - REPMGR_PARTNER_NODES=postgresql-0,postgresql-1,postgresql-2
+      - REPMGR_LOG_LEVEL=NOTICE
+    volumes:
+      - postgresql_2_data:/bitnami/postgresql
+    healthcheck:
+      test: ["CMD-SHELL",
+             "pg_isready -U postgres -d prod"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  pgpool:
+    image: bitnamilegacy/pgpool:4.6.3
+    depends_on:
+      postgresql-0:
+        condition: service_healthy
+      postgresql-1:
+        condition: service_healthy
+      postgresql-2:
+        condition: service_healthy
+    environment:
+      - PGPOOL_BACKEND_NODES=0:postgresql-0:5432:1,1:postgresql-1:5432:1,2:postgresql-2:5432:1
+      - PGPOOL_DATABASE_REDIRECT_PREFERENCE_LIST=*:standby
+      - PGPOOL_BACKEND_APPLICATION_NAMES=postgresql-0,postgresql-1,postgresql-2
+      - PGPOOL_POSTGRES_USERNAME=postgres
+      - PGPOOL_POSTGRES_PASSWORD=postgres
+      - PGPOOL_SR_CHECK_USER=postgres
+      - PGPOOL_SR_CHECK_PASSWORD=postgres
+      - PGPOOL_SKIP_PASSWORD_ENCRYPTION=yes
+      - PGPOOL_HEALTH_CHECK_PERIOD=2
+      - PGPOOL_ADMIN_USERNAME=admin
+      - PGPOOL_ADMIN_PASSWORD=admin
+      - PGPOOL_ENABLE_LOAD_BALANCING=yes
+      - PGPOOL_FAILOVER_ON_BACKEND_ERROR=on
+      - PGPOOL_AUTO_FAILBACK=yes
+    healthcheck:
+      test: ["CMD-SHELL",
+             "PGPASSWORD=postgres psql -U postgres -h localhost -p 5432 -d prod -c 'SELECT 1'"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  redis:
+    image: redis:7.4
+    command: ["redis-server",
+              "--save", "",
+              "--appendonly", "no",
+              "--maxmemory", "128mb",
+              "--maxmemory-policy", "volatile-lfu"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD",
+              "redis-cli", "ping" ]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+  cb1:
+    image: couchbase:community
+    ports:
+      - "8091-8097:8091-8097"
+      - "11210:11210"
+    healthcheck:
+      test: ["CMD-SHELL",
+             "curl -fsS http://localhost:8091/pools || curl -u admin:password -fsS http://cb1.local:8091/pools"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    volumes:
+      - cb1-data:/opt/couchbase/var
+    hostname: cb1.local
+    networks:
+      default:
+        aliases:
+          - cb1.local
+
+  cb2:
+    image: couchbase:community
+    healthcheck:
+      test: ["CMD-SHELL",
+             "curl -fsS http://localhost:8091/pools || curl -u admin:password -fsS http://cb1.local:8091/pools"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    volumes:
+      - cb2-data:/opt/couchbase/var
+    hostname: cb2.local
+    networks:
+      default:
+        aliases:
+          - cb2.local
+
+  cb3:
+    image: couchbase:community
+    healthcheck:
+      test: ["CMD-SHELL",
+             "curl -fsS http://localhost:8091/pools || curl -u admin:password -fsS http://cb1.local:8091/pools"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    volumes:
+      - cb3-data:/opt/couchbase/var
+    hostname: cb3.local
+    networks:
+      default:
+        aliases:
+          - cb3.local
+
+  init-cluster:
+    image: couchbase:community
+    depends_on:
+      cb1:
+        condition: service_healthy
+      cb2:
+        condition: service_healthy
+      cb3:
+        condition: service_healthy
+    volumes:
+      - init-cluster:/opt/couchbase/var
+    command: >
+      bash -lc '
+        set -e;
+
+        if curl -u admin:password -fs http://cb1.local:8091/pools/default > /dev/null 2>&1; then
+          echo "Couchbase уже настроен, пропуск инициализации";
+          exit 0;
+        fi;
+
+        couchbase-cli node-init -c cb1.local --node-init-hostname cb1.local > /dev/null;
+
+        echo "Инициализация Couchbase...";
+        couchbase-cli cluster-init -c cb1.local \
+          --cluster-username admin \
+          --cluster-password password \
+          --services query,index,data \
+          --cluster-ramsize 256 > /dev/null;
+        echo "Инициализация Couchbase прошла успешно";
+
+        echo "Добавление нод...";
+        couchbase-cli server-add -c cb1.local -u admin -p password \
+          --server-add cb2.local \
+          --server-add-username admin \
+          --server-add-password password \
+          --services query,index,data > /dev/null;
+
+        couchbase-cli server-add -c cb1.local -u admin -p password \
+          --server-add cb3.local \
+          --server-add-username admin \
+          --server-add-password password \
+          --services query,index,data > /dev/null;
+        echo "Ноды добавлены успешно";
+
+        echo "Решардинг...";
+        curl -fs -u admin:password -X POST http://cb1.local:8091/controller/rebalance \
+          -d knownNodes=ns_1@cb1.local,ns_1@cb2.local,ns_1@cb3.local > /dev/null;
+
+        until curl -s -u admin:password http://cb1.local:8091/pools/default | grep -q "\"balanced\":true"; do
+          echo "Решардинг...";
+          sleep 5;
+        done;
+        echo "Решардинг завершен успешно";
+
+        echo "Создание бакета...";
+        couchbase-cli bucket-create -c cb1.local -u admin -p password \
+          --bucket prod \
+          --bucket-type couchbase \
+          --bucket-ramsize 128 \
+          --bucket-replica 2 > /dev/null;
+        echo "Бакет создан успешно";
+      
+        echo "Создание коллекции...";
+        couchbase-cli collection-manage -c cb1.local -u admin -p password \
+          --bucket prod \
+          --create-scope prod > /dev/null;
+  
+        couchbase-cli collection-manage -c cb1.local -u admin -p password \
+          --bucket prod \
+          --create-collection prod.messages > /dev/null;
+        echo "Коллекция создана успешно";
+      '
+
+  app:
+    build: .
+    environment:
+      - DB_HOST=pgpool
+      - DB_PORT=5432
+      - DB_NAME=prod
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - COUCH_HOST=couchbase://cb1.local,cb2.local,cb3.local
+      - COUCH_USER=admin
+      - COUCH_PASSWORD=password
+      - COUCH_BUCKET=prod
+      - SECRET_KEY=secret_key
+    depends_on:
+      pgpool:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      init-cluster:
+        condition: service_completed_successfully
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgresql_0_data:
+  postgresql_1_data:
+  postgresql_2_data:
+  redis_data:
+  cb1-data:
+  cb2-data:
+  cb3-data:
+  init-cluster:
