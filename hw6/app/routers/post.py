@@ -1,5 +1,5 @@
 import ulid
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, WebSocket, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import os
 import psycopg
@@ -10,6 +10,8 @@ import redis
 from datetime import datetime
 from typing import Optional, Tuple
 import json
+from app.hub import Connection
+import asyncio
 
 router = APIRouter()
 security = HTTPBearer()
@@ -35,6 +37,9 @@ def get_reddis_conn():
     r = redis.Redis(host=os.getenv('REDIS_HOST'), port=int(os.getenv('REDIS_PORT')), decode_responses=True)
     return r
 
+def get_hub(request: Request):
+    return request.app.state.hub
+
 class PostCreateRequest(BaseModel):
     text: str
 
@@ -42,7 +47,7 @@ class PostCreateResponse(BaseModel):
     post_id: str
 
 @router.post('/create', response_model=PostCreateResponse)
-def post_create(data: PostCreateRequest, user_id: str = Depends(check_token)):
+async def post_create(data: PostCreateRequest, user_id: str = Depends(check_token), hub = Depends(get_hub)):
     conn = get_db_conn()
     r = get_reddis_conn()
     insert_post = '''
@@ -64,6 +69,8 @@ def post_create(data: PostCreateRequest, user_id: str = Depends(check_token)):
         key = f'feeds:{friend_id}'
         r.zadd(key, {post_id: int(datetime.now().replace(microsecond=0).timestamp())})
         r.zremrangebyrank(key, 0, -1001)
+        message = {'post_id': post_id, 'user_id': friend_id, 'text': data.text}
+        await hub.publish_to_user(friend_id, message)
     key = f'users:{user_id}'
     r.zadd(key, {post_id: int(datetime.now().replace(microsecond=0).timestamp())})
     r.zremrangebyrank(key, 0, -1001)
@@ -199,3 +206,22 @@ def post_feed(offset: int = 0, limit: int = 10, user_id: str = Depends(check_tok
             text=text
         ))
     return posts
+
+@router.websocket('/feed/posted')
+async def post_feed_posted(ws: WebSocket):
+    await ws.accept()
+    auth_header = ws.headers.get('authorization')
+    _, token = auth_header.split('Bearer ')
+    try:
+        payload = jwt.decode(token, os.getenv('SECRET_KEY'), algorithms=['HS256'])
+    except InvalidSignatureError:
+        await ws.close()
+        raise HTTPException(status_code=401, detail='Неавторизованный доступ')
+    hub = ws.app.state.hub
+    user_id = payload['user_id']
+    conn = Connection(ws, user_id)
+    await hub.connect(conn)
+    try:
+        await asyncio.Future()
+    finally:
+        await hub.disconnect(conn)
