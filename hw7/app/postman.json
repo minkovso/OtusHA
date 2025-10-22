@@ -1,0 +1,2430 @@
+{
+	"info": {
+		"_postman_id": "bfffecac-566c-4d71-bd3b-e6cceaf9c379",
+		"name": "OTUS Highload Architect Minkov",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48668551"
+	},
+	"item": [
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "Упрощенный процесс аутентификации путем передачи идентификатор пользователя и получения токена для дальнейшего прохождения авторизации",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"password\": \"Секретная строка\"\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Упрощенный процесс аутентификации путем передачи идентификатор пользователя и получения токена для дальнейшего прохождения авторизации"
+					},
+					"response": [
+						{
+							"name": "Успешная аутентификация",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"password\": \"Секретная строка\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"\n}"
+						},
+						{
+							"name": "Невалидные данные",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"password\": \"Секретная строка\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Пользователь не найден",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"password\": \"Секретная строка\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Ошибка сервера",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"password\": \"Секретная строка\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"item": [
+						{
+							"name": "Регистрация нового пользователя",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"first_name\": \"Имя\",\n  \"second_name\": \"Фамилия\",\n  \"birthdate\": \"2017-02-01\",\n  \"biography\": \"Хобби, интересы и т.п.\",\n  \"city\": \"Москва\",\n  \"password\": \"Секретная строка\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								},
+								"description": "Регистрация нового пользователя"
+							},
+							"response": [
+								{
+									"name": "Пользователь успешно зарегистрирован",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"first_name\": \"Имя\",\n  \"second_name\": \"Фамилия\",\n  \"birthdate\": \"2017-02-01\",\n  \"biography\": \"Хобби, интересы и т.п.\",\n  \"city\": \"Москва\",\n  \"password\": \"Секретная строка\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\"\n}"
+								},
+								{
+									"name": "Ошибка сервера",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"first_name\": \"Имя\",\n  \"second_name\": \"Фамилия\",\n  \"birthdate\": \"2017-02-01\",\n  \"biography\": \"Хобби, интересы и т.п.\",\n  \"city\": \"Москва\",\n  \"password\": \"Секретная строка\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"register"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "get",
+					"item": [
+						{
+							"name": "{user_id}",
+							"item": [
+								{
+									"name": "Получение анкеты пользователя",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/user/get/:user_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"get",
+												":user_id"
+											],
+											"variable": [
+												{
+													"key": "user_id",
+													"value": "01K7VKCPTVG23A1A2VW5GA60TP"
+												}
+											]
+										},
+										"description": "Получение анкеты пользователя"
+									},
+									"response": [
+										{
+											"name": "Анкета пользователя успешно получена",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/user/get/:user_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"user",
+														"get",
+														":user_id"
+													],
+													"variable": [
+														{
+															"key": "user_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"first_name\": \"Имя\",\n  \"second_name\": \"Фамилия\",\n  \"birthdate\": \"2017-02-01\",\n  \"biography\": \"Хобби, интересы и т.п.\",\n  \"city\": \"Москва\"\n}"
+										},
+										{
+											"name": "Анкета не найдена",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/user/get/:user_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"user",
+														"get",
+														":user_id"
+													],
+													"variable": [
+														{
+															"key": "user_id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Ошибка сервера",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/user/get/:user_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"user",
+														"get",
+														":user_id"
+													],
+													"variable": [
+														{
+															"key": "user_id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "search",
+					"item": [
+						{
+							"name": "Поиск анкет по частям имени и фамилии",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user/search?first_name=Pet&second_name=Whi",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"search"
+									],
+									"query": [
+										{
+											"key": "first_name",
+											"value": "Pet"
+										},
+										{
+											"key": "second_name",
+											"value": "Whi"
+										}
+									]
+								},
+								"description": "Поиск анкет по частям имени и фамилии"
+							},
+							"response": [
+								{
+									"name": "Анкеты пользователей успешно получены",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/user/search?first_name=Pet&second_name=Whi",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"search"
+											],
+											"query": [
+												{
+													"key": "first_name",
+													"value": "Pet"
+												},
+												{
+													"key": "second_name",
+													"value": "Whi"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n    \"first_name\": \"Имя\",\n    \"second_name\": \"Фамилия\",\n    \"birthdate\": \"2017-02-01\",\n    \"biography\": \"Хобби, интересы и т.п.\",\n    \"city\": \"Москва\"\n  },\n  {\n    \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n    \"first_name\": \"Имя\",\n    \"second_name\": \"Фамилия\",\n    \"birthdate\": \"2017-02-01\",\n    \"biography\": \"Хобби, интересы и т.п.\",\n    \"city\": \"Москва\"\n  }\n]"
+								},
+								{
+									"name": "Ошибка сервера",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/user/search?first_name=Pet&second_name=Whi",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"search"
+											],
+											"query": [
+												{
+													"key": "first_name",
+													"value": "Pet"
+												},
+												{
+													"key": "second_name",
+													"value": "Whi"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "friend",
+			"item": [
+				{
+					"name": "add",
+					"item": [
+						{
+							"name": "{friend_id}",
+							"item": [
+								{
+									"name": "Добавление друга",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{bearerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/friend/add/:friend_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"friend",
+												"add",
+												":friend_id"
+											],
+											"variable": [
+												{
+													"key": "friend_id",
+													"value": "01K7VKCPTVG23A1A2VW5GA60TP"
+												}
+											]
+										},
+										"description": "Добавление друга"
+									},
+									"response": [
+										{
+											"name": "Друг успешно добавлен",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/friend/add/:friend_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"friend",
+														"add",
+														":friend_id"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Невалидные данные",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/friend/add/:friend_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"friend",
+														"add",
+														":friend_id"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Неавторизованный доступ",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/friend/add/:friend_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"friend",
+														"add",
+														":friend_id"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Ошибка сервера",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/friend/add/:friend_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"friend",
+														"add",
+														":friend_id"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "delete",
+					"item": [
+						{
+							"name": "{friend_id}",
+							"item": [
+								{
+									"name": "Удаление друга",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{bearerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/friend/delete/:friend_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"friend",
+												"delete",
+												":friend_id"
+											],
+											"variable": [
+												{
+													"key": "friend_id",
+													"value": "01K7VKCPTVG23A1A2VW5GA60TP"
+												}
+											]
+										},
+										"description": "Удаление друга"
+									},
+									"response": [
+										{
+											"name": "Друг успешно удален",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/friend/delete/:friend_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"friend",
+														"delete",
+														":friend_id"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Невалидные данные",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/friend/delete/:friend_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"friend",
+														"delete",
+														":friend_id"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Неавторизованный доступ",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/friend/delete/:friend_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"friend",
+														"delete",
+														":friend_id"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Ошибка сервера",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/friend/delete/:friend_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"friend",
+														"delete",
+														":friend_id"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "post",
+			"item": [
+				{
+					"name": "create",
+					"item": [
+						{
+							"name": "Создание поста",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{bearerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/post/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"post",
+										"create"
+									]
+								},
+								"description": "Создание поста"
+							},
+							"response": [
+								{
+									"name": "Пост успешно создан",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/post/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"create"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"post_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\"\n}"
+								},
+								{
+									"name": "Неавторизованный доступ",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/post/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"create"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Ошибка сервера",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/post/create",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"create"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "update",
+					"item": [
+						{
+							"name": "Изменение поста",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{bearerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"post_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/post/update",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"post",
+										"update"
+									]
+								},
+								"description": "Изменение поста"
+							},
+							"response": [
+								{
+									"name": "Пост успешно изменен",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"post_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/post/update",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"update"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Невалидные данные",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"post_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/post/update",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"update"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Неавторизованный доступ",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"post_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/post/update",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"update"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Ошибка сервера",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"post_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/post/update",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"update"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "delete",
+					"item": [
+						{
+							"name": "{post_id}",
+							"item": [
+								{
+									"name": "Удаление поста",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{bearerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/post/delete/:post_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"delete",
+												":post_id"
+											],
+											"variable": [
+												{
+													"key": "post_id",
+													"value": "01K7VKCPTVG23A1A2VW5GA60TP"
+												}
+											]
+										},
+										"description": "Удаление поста"
+									},
+									"response": [
+										{
+											"name": "Пост успешно удален",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/post/delete/:post_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"post",
+														"delete",
+														":post_id"
+													],
+													"variable": [
+														{
+															"key": "post_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Невалидные данные",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/post/delete/:post_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"post",
+														"delete",
+														":post_id"
+													],
+													"variable": [
+														{
+															"key": "post_id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Неавторизованный доступ",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/post/delete/:post_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"post",
+														"delete",
+														":post_id"
+													],
+													"variable": [
+														{
+															"key": "post_id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Ошибка сервера",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/post/delete/:post_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"post",
+														"delete",
+														":post_id"
+													],
+													"variable": [
+														{
+															"key": "post_id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "get",
+					"item": [
+						{
+							"name": "{post_id}",
+							"item": [
+								{
+									"name": "Получение поста пользователя",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{bearerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/post/get/:post_id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"get",
+												":post_id"
+											],
+											"variable": [
+												{
+													"key": "post_id",
+													"value": "01K7VKCPTVG23A1A2VW5GA60TP"
+												}
+											]
+										},
+										"description": "Получение поста пользователя"
+									},
+									"response": [
+										{
+											"name": "Пост успешно получен",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/post/get/:post_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"post",
+														"get",
+														":post_id"
+													],
+													"variable": [
+														{
+															"key": "post_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"post_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n  \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\",\n  \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\"\n}"
+										},
+										{
+											"name": "Неавторизованный доступ",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/post/get/:post_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"post",
+														"get",
+														":post_id"
+													],
+													"variable": [
+														{
+															"key": "post_id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Пост не найден",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/post/get/:post_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"post",
+														"get",
+														":post_id"
+													],
+													"variable": [
+														{
+															"key": "post_id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Ошибка сервера",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/post/get/:post_id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"post",
+														"get",
+														":post_id"
+													],
+													"variable": [
+														{
+															"key": "post_id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "feed",
+					"item": [
+						{
+							"name": "Получение постов друзей пользователя",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{bearerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/post/feed?offset=100&limit=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"post",
+										"feed"
+									],
+									"query": [
+										{
+											"key": "offset",
+											"value": "100"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								},
+								"description": "Получение постов друзей пользователя"
+							},
+							"response": [
+								{
+									"name": "Посты друзей успешно получены",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/post/feed?offset=100&limit=10",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"feed"
+											],
+											"query": [
+												{
+													"key": "offset",
+													"value": "100"
+												},
+												{
+													"key": "limit",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"post_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n    \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\",\n    \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\"\n  },\n  {\n    \"post_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n    \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus mauris ultrices eros in cursus turpis massa.\",\n    \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\"\n  }\n]"
+								},
+								{
+									"name": "Неавторизованный доступ",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/post/feed?offset=100&limit=10",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"feed"
+											],
+											"query": [
+												{
+													"key": "offset",
+													"value": "100"
+												},
+												{
+													"key": "limit",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Ошибка сервера",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer <token>",
+												"description": "Added as a part of security scheme: bearer"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/post/feed?offset=100&limit=10",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"post",
+												"feed"
+											],
+											"query": [
+												{
+													"key": "offset",
+													"value": "100"
+												},
+												{
+													"key": "limit",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "dialog",
+			"item": [
+				{
+					"name": "{friend_id}",
+					"item": [
+						{
+							"name": "send",
+							"item": [
+								{
+									"name": "Отправка сообщения пользователю",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{bearerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"text\": \"Привет, как дела?\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/dialog/:friend_id/send",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"dialog",
+												":friend_id",
+												"send"
+											],
+											"variable": [
+												{
+													"key": "friend_id",
+													"value": "01K7VKCPTVG23A1A2VW5GA60TP"
+												}
+											]
+										},
+										"description": "Отправка сообщения пользователю"
+									},
+									"response": [
+										{
+											"name": "Сообщение успешно отправлено",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"text\": \"Привет, как дела?\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/dialog/:friend_id/send",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"dialog",
+														":friend_id",
+														"send"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Невалидные данные",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"text\": \"Привет, как дела?\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/dialog/:friend_id/send",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"dialog",
+														":friend_id",
+														"send"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Неавторизованный доступ",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"text\": \"Привет, как дела?\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/dialog/:friend_id/send",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"dialog",
+														":friend_id",
+														"send"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Ошибка сервера",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"text\": \"Привет, как дела?\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/dialog/:friend_id/send",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"dialog",
+														":friend_id",
+														"send"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "list",
+							"item": [
+								{
+									"name": "Получение диалога между двумя пользователями",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{bearerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/dialog/:friend_id/list",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"dialog",
+												":friend_id",
+												"list"
+											],
+											"variable": [
+												{
+													"key": "friend_id",
+													"value": "01K7VKCPTVG23A1A2VW5GA60TP"
+												}
+											]
+										},
+										"description": "Получение диалога между двумя пользователями"
+									},
+									"response": [
+										{
+											"name": "Диалог между двумя пользователями",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/dialog/:friend_id/list",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"dialog",
+														":friend_id",
+														"list"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n    \"friend_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n    \"text\": \"Привет, как дела?\"\n  },\n  {\n    \"user_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n    \"friend_id\": \"01K7VKCPTVG23A1A2VW5GA60TP\",\n    \"text\": \"Привет, как дела?\"\n  }\n]"
+										},
+										{
+											"name": "Невалидные данные",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/dialog/:friend_id/list",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"dialog",
+														":friend_id",
+														"list"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Неавторизованный доступ",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/dialog/:friend_id/list",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"dialog",
+														":friend_id",
+														"list"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Ошибка сервера",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Bearer <token>",
+														"description": "Added as a part of security scheme: bearer"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/dialog/:friend_id/list",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"dialog",
+														":friend_id",
+														"list"
+													],
+													"variable": [
+														{
+															"key": "friend_id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost"
+		},
+        {
+			"key": "port",
+			"value": "8000"
+		}
+	]
+}
