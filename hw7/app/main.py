@@ -16,7 +16,7 @@ async def lifespan(app: FastAPI):
         await app.state.hub.stop()
 app = FastAPI(
     title='OtusHA',
-    description='Домашнее задание 5',
+    description='Домашнее задание 7',
     version='1.0.0',
     docs_url=None,
     redoc_url=None,
