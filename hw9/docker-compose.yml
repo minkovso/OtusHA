@@ -1,0 +1,266 @@
+services:
+  postgresql-1:
+    image: bitnamilegacy/postgresql-repmgr:17.6.0-debian-12-r2
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prod
+      - REPMGR_PASSWORD=repl
+      - REPMGR_NODE_NAME=postgresql-1
+      - REPMGR_NODE_NETWORK_NAME=postgresql-1
+      - REPMGR_PRIMARY_HOST=postgresql-1
+      - REPMGR_PARTNER_NODES=postgresql-1,postgresql-2,postgresql-3
+      - REPMGR_LOG_LEVEL=NOTICE
+    volumes:
+      - postgresql_1_data:/bitnami/postgresql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL",
+             "pg_isready -U postgres -d prod"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  postgresql-2:
+    image: bitnamilegacy/postgresql-repmgr:17.6.0-debian-12-r2
+    depends_on:
+      postgresql-1:
+        condition: service_healthy
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prod
+      - REPMGR_PASSWORD=repl
+      - REPMGR_NODE_NAME=postgresql-2
+      - REPMGR_NODE_NETWORK_NAME=postgresql-2
+      - REPMGR_PRIMARY_HOST=postgresql-1
+      - REPMGR_PARTNER_NODES=postgresql-1,postgresql-2,postgresql-3
+      - REPMGR_LOG_LEVEL=NOTICE
+    volumes:
+      - postgresql_2_data:/bitnami/postgresql
+    healthcheck:
+      test: ["CMD-SHELL",
+             "pg_isready -U postgres -d prod"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  postgresql-3:
+    image: bitnamilegacy/postgresql-repmgr:17.6.0-debian-12-r2
+    depends_on:
+      postgresql-1:
+        condition: service_healthy
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prod
+      - REPMGR_PASSWORD=repl
+      - REPMGR_NODE_NAME=postgresql-3
+      - REPMGR_NODE_NETWORK_NAME=postgresql-3
+      - REPMGR_PRIMARY_HOST=postgresql-1
+      - REPMGR_PARTNER_NODES=postgresql-1,postgresql-2,postgresql-3
+      - REPMGR_LOG_LEVEL=NOTICE
+    volumes:
+      - postgresql_3_data:/bitnami/postgresql
+    healthcheck:
+      test: ["CMD-SHELL",
+             "pg_isready -U postgres -d prod"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  pgpool:
+    image: bitnamilegacy/pgpool:4.6.3
+    depends_on:
+      postgresql-1:
+        condition: service_healthy
+      postgresql-2:
+        condition: service_healthy
+      postgresql-3:
+        condition: service_healthy
+    environment:
+      - PGPOOL_BACKEND_NODES=0:postgresql-1:5432:1,1:postgresql-2:5432:1,2:postgresql-3:5432:1
+      - PGPOOL_DATABASE_REDIRECT_PREFERENCE_LIST=*:standby
+      - PGPOOL_BACKEND_APPLICATION_NAMES=postgresql-1,postgresql-2,postgresql-3
+      - PGPOOL_POSTGRES_USERNAME=postgres
+      - PGPOOL_POSTGRES_PASSWORD=postgres
+      - PGPOOL_SR_CHECK_USER=postgres
+      - PGPOOL_SR_CHECK_PASSWORD=postgres
+      - PGPOOL_SKIP_PASSWORD_ENCRYPTION=yes
+      - PGPOOL_HEALTH_CHECK_PERIOD=2
+      - PGPOOL_ADMIN_USERNAME=admin
+      - PGPOOL_ADMIN_PASSWORD=admin
+      - PGPOOL_ENABLE_LOAD_BALANCING=yes
+      - PGPOOL_FAILOVER_ON_BACKEND_ERROR=on
+      - PGPOOL_AUTO_FAILBACK=yes
+      - PGPASSWORD=postgres
+    healthcheck:
+      test: ["CMD-SHELL",
+             "psql -U postgres -h localhost -p 5432 -d prod -c 'SELECT 1'"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7.4
+    command: ["redis-server",
+              "--save", "",
+              "--appendonly", "no",
+              "--maxmemory", "128mb",
+              "--maxmemory-policy", "volatile-lfu"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD",
+              "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  cb1:
+    image: couchbase:community
+    ports:
+      - "8091-8097:8091-8097"
+    healthcheck:
+      test: ["CMD-SHELL",
+             "curl -fsS http://localhost:8091/pools || curl -u admin:password -fsS http://cb1.local:8091/pools"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - cb1-data:/opt/couchbase/var
+    hostname: cb1.local
+    networks:
+      default:
+        aliases:
+          - cb1.local
+
+  cb2:
+    image: couchbase:community
+    healthcheck:
+      test: ["CMD-SHELL",
+             "curl -fsS http://localhost:8091/pools || curl -u admin:password -fsS http://cb2.local:8091/pools"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - cb2-data:/opt/couchbase/var
+    hostname: cb2.local
+    networks:
+      default:
+        aliases:
+          - cb2.local
+
+  cb3:
+    image: couchbase:community
+    healthcheck:
+      test: ["CMD-SHELL",
+             "curl -fsS http://localhost:8091/pools || curl -u admin:password -fsS http://cb3.local:8091/pools"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - cb3-data:/opt/couchbase/var
+    hostname: cb3.local
+    networks:
+      default:
+        aliases:
+          - cb3.local
+
+  init-cluster:
+    image: couchbase:community
+    depends_on:
+      cb1:
+        condition: service_healthy
+      cb2:
+        condition: service_healthy
+      cb3:
+        condition: service_healthy
+    volumes:
+      - init-cluster:/opt/couchbase/var
+      - ./init-cluster.sh:/init-cluster.sh:ro
+    command: ["/bin/bash", "init-cluster.sh"]
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_VHOST: /prod
+    ports:
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD",
+             "rabbitmq-diagnostics", "-q", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  grpc:
+    build: .
+    environment:
+      - COUCH_HOST=couchbase://cb1.local,cb2.local,cb3.local
+      - COUCH_USER=admin
+      - COUCH_PASSWORD=password
+      - COUCH_BUCKET=prod
+      - DIALOG_HOST=grpc
+      - DIALOG_PORT=8005
+    depends_on:
+      init-cluster:
+        condition: service_completed_successfully
+    command: ["python3", "app/dialog.py"]
+
+  app:
+    build: .
+    environment:
+      - DB_HOST=pgpool
+      - DB_PORT=5432
+      - DB_NAME=prod
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - RABBIT_EXCHANGE=feed
+      - RABBIT_QUEUE=feed.0
+      - RABBIT_ROUTING_KEY=feed.0.*
+      - RABIT_URL=amqp://admin:password@rabbitmq:5672/%2Fprod
+      - SECRET_KEY=secret_key
+      - DIALOG_HOST=grpc
+      - DIALOG_PORT=8005
+      - COUCH_HOST=couchbase://cb1.local,cb2.local,cb3.local
+      - COUCH_USER=admin
+      - COUCH_PASSWORD=password
+      - COUCH_BUCKET=prod
+    depends_on:
+      pgpool:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      grpc:
+        condition: service_started
+    command: ["uvicorn", "app.web:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      app:
+        condition: service_started
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+volumes:
+  postgresql_1_data:
+  postgresql_2_data:
+  postgresql_3_data:
+  redis_data:
+  cb1-data:
+  cb2-data:
+  cb3-data:
+  init-cluster:
+  rabbitmq_data:
