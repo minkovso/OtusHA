@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package dialog;
+
+service DialogService {
+  rpc Send (Message) returns (Ack) {}
+
+  rpc List (Dialog) returns (Messages) {}
+}
+
+message Message {
+  string user_id   = 1;
+  string friend_id = 2;
+  string text      = 3;
+}
+
+message Messages {
+  repeated Message items = 1;
+}
+
+message Dialog {
+  string user_id   = 1;
+  string friend_id = 2;
+}
+
+message Ack {
+  bool ok   = 1;
+}
