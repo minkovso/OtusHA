@@ -63,4 +63,13 @@ sleep 2
 
 curl -s -u admin:password -X POST http://cb1.local:8093/query/service \
   -d 'statement=CREATE INDEX messages_from ON prod.prod.messages(`from`)'
+
+curl -s -u admin:password -X POST http://cb1.local:8093/query/service \
+  -d 'statement=CREATE FUNCTION `prod`.`prod`.get_messages(user_id)
+      {
+        (SELECT text
+         FROM `prod`.`prod`.`messages`
+         WHERE `from` = user_id)
+      }'
+
 echo "Коллекция создана успешно"

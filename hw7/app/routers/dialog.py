@@ -93,9 +93,8 @@ def dialog_list(friend_id: str, user_id: str = Depends(check_token)):
         bucket = get_couch_conn()
         scope = bucket.scope('prod')
         query = '''
-            SELECT text
-            FROM `prod`.`prod`.`messages`
-            WHERE `from` = $user_id
+            SELECT m.text 
+              FROM `prod`.`prod`.get_messages($user_id) AS m
         '''
         rows = scope.query(query, QueryOptions(named_parameters={'user_id': user_id}))
         messages = []
